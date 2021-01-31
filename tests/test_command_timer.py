@@ -94,14 +94,14 @@ async def test_command_monitor(event_loop: asyncio.AbstractEventLoop):
 
         monitor_task = event_loop.create_task(monitor.command_monitor())
 
-        await queue.put((PromptMonitor.Mode.COMMAND_START, ""))
+        await queue.put((PromptMonitor.Mode.COMMAND_START, "ls"))
         await queue.join()
         monitor.timer.start.assert_called_once()
         monitor.timer.stop.assert_not_called()
 
         monitor.timer.reset_mock()
 
-        await queue.put((PromptMonitor.Mode.PROMPT, ""))
+        await queue.put((PromptMonitor.Mode.PROMPT, None))
         await queue.join()
         monitor.timer.start.assert_not_called()
         monitor.timer.stop.assert_called_once()

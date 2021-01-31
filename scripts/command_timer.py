@@ -1,4 +1,3 @@
-import asyncio
 import time
 from contextlib import contextmanager
 from math import floor
@@ -12,8 +11,6 @@ from iterm2 import (
     run_forever,
     EachSessionOnceMonitor,
     Reference,
-    Session,
-    Connection,
 )
 
 
@@ -85,7 +82,10 @@ class CommandMonitor:
                     print(f"Session {self.session_id} received {mode}")
                     if mode == PromptMonitor.Mode.COMMAND_START and info:
                         self.timer.start()
-                    elif mode in (PromptMonitor.Mode.COMMAND_END, PromptMonitor.Mode.PROMPT):
+                    elif mode in (
+                        PromptMonitor.Mode.COMMAND_END,
+                        PromptMonitor.Mode.PROMPT,
+                    ):
                         self.timer.stop()
         finally:
             print(f"Stopped monitoring session {self.session_id}")
